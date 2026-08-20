@@ -1,0 +1,43 @@
+# Version control / editor / local
+.git/
+.gitignore
+.gitattributes
+.gitmodules
+.github/
+.vscode/
+.idea/
+.mailmap
+.clang-format
+.clang-tidy
+
+# Local build output + wyvrnpm-generated files
+build/
+wyvrn_internal/
+wyvrn.lock
+CMakePresets.json
+CMakeUserPresets.json
+*.tmp
+*.log
+
+# Kept (do NOT ignore) because options.build_profiler=true builds the
+# tracy-profiler GUI exe from this same tree:
+#   profiler/  server/  dtl/  getopt/  manual/  icon/  cmake/  public/
+# The profiler pulls its remaining deps (capstone, glfw, freetype, ImGui,
+# libcurl, ...) from GitHub via CPM at configure time, so they are not vendored.
+
+# Separate tools/executables that this package never builds, plus the
+# non-CMake build system.
+capture/
+csvexport/
+import/
+merge/
+monitor/
+python/
+update/
+examples/
+tests/
+doc/
+extra/
+meson.build
+meson.options
+NEWS

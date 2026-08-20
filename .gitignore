@@ -30,3 +30,11 @@ compile_commands.json
 examples/ToyPathTracer/Windows/TestCpu
 examples/ToyPathTracer/Windows/x64
 *.user
+
+# wyvrnpm-generated (local, per-machine)
+/build/
+/wyvrn_internal/
+/wyvrn.lock
+wyvrn.local.json
+/CMakePresets.json
+/CMakeUserPresets.json

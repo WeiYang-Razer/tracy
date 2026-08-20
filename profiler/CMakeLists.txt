@@ -41,11 +41,19 @@ include(${CMAKE_CURRENT_LIST_DIR}/../cmake/server.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/GitRef.cmake)
 
 include(ExternalProject)
+# `embed` is a build-host codegen tool, not a shipped artefact - always build it
+# Release. Pin the config explicitly: under a multi-config generator ExternalProject
+# would otherwise propagate the outer --config, and Ninja Multi-Config only
+# generates Debug/Release/RelWithDebInfo by default, so an outer MinSizeRel build
+# fails with "loading build-MinSizeRel.ninja: The system cannot find the file".
 ExternalProject_Add(embed
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/helpers
     CMAKE_ARGS
         -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_CONFIGURATION_TYPES=Release
         -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release
+    INSTALL_COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --config Release
 )
 
 function(Embed LIST NAME FILE)
@@ -352,4 +360,6 @@ if(EMSCRIPTEN)
     file(COPY_FILE ${CMAKE_CURRENT_LIST_DIR}/../icon/icon.svg ${CMAKE_CURRENT_BINARY_DIR}/favicon.svg)
 endif()
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
+# Per-config destination, matching the root TracyClient install rule, so that a
+# multi-config build installs all four exes side by side instead of clobbering one.
+install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR}/$<IF:$<CONFIG:Release>,,$<CONFIG>>)

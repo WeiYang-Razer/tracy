@@ -16,6 +16,7 @@ endif()
 option(TRACY_STATIC "Whether to build Tracy as a static library" ${DEFAULT_STATIC})
 option(TRACY_Fortran "Build Fortran bindings" OFF)
 option(TRACY_LTO "Enable Link-Time optimization" OFF)
+option(TRACY_BUILD_PROFILER "Build the Tracy profiler GUI executable (tracy-profiler)" OFF)
 
 if(TRACY_Fortran)
   enable_language(Fortran)
@@ -294,4 +295,8 @@ endif()
 
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_COLOR_DIAGNOSTICS ON)
+endif()
+
+if(TRACY_BUILD_PROFILER)
+    add_subdirectory(profiler)
 endif()

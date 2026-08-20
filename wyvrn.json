@@ -1,0 +1,39 @@
+{
+  "name":          "Tracy",
+  "version":       "0.14.0.0",
+  "schemaVersion": 2,
+  "description":   "Tracy Profiler client library (TracyClient) - a real-time, nanosecond resolution, remote telemetry, hybrid frame and sampling profiler for games and other applications. Optionally also builds the tracy-profiler GUI executable.",
+  "kind":          "StaticLib",
+
+  "options": {
+    "static":         { "default": true,  "allowed": [true, false] },
+    "enable":         { "default": false, "allowed": [true, false] },
+    "on_demand":      { "default": false, "allowed": [true, false] },
+    "build_profiler": { "default": false, "allowed": [true, false] }
+  },
+
+  "compatibility": {
+    "compiler.cppstd":  "lte",
+    "compiler.runtime": "exact",
+    "options.static":         "exact",
+    "options.enable":         "exact",
+    "options.on_demand":      "exact",
+    "options.build_profiler": "exact"
+  },
+
+  "build": {
+    "system":    "cmake",
+    "generator": ["Ninja Multi-Config", "Visual Studio 17 2022"],
+    "configs":   ["Debug", "Release", "RelWithDebInfo", "MinSizeRel"],
+    "configure": [
+      "-DTRACY_STATIC=${options.static}",
+      "-DTRACY_ENABLE=${options.enable}",
+      "-DTRACY_ON_DEMAND=${options.on_demand}",
+      "-DTRACY_BUILD_PROFILER=${options.build_profiler}"
+    ],
+    "buildArgs":  ["--parallel"],
+    "installDir": "install"
+  },
+
+  "dependencies": {}
+}
