@@ -4,7 +4,7 @@
 namespace tracy::Version
 {
 constexpr int Major = 0;
-constexpr int Minor = 14;
+constexpr int Minor = 15;
 constexpr int Patch = 0;
 }
 
